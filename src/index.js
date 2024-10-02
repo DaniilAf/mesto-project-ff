@@ -39,13 +39,37 @@ function createCard(element, delCard){
   return cardElement; 
   };
 
-// // @todo: Функция удаления карточки
+// @todo: Функция удаления карточки
 function removeCard(card) {
   card.remove();
 };
 
-// // @todo: Вывести карточки на страницу
+// @todo: Вывести карточки на страницу
 initialCards.forEach(function(elem) {
   const card = createCard(elem, removeCard);
   placesList.append(card);
 });
+
+
+// @todo: Открытие и закрытие popup
+const popup = document.querySelector('.popup');
+const popupCloseButton = popup.querySelector('.popup__close');
+const profileEditButton = document.querySelector('.profile__edit-button');
+const profileAddButton = document.querySelector('.profile__add-button');
+// const cardMage = cardTemplate.querySelector('.card__image');
+
+profileEditButton.addEventListener('click', function(){
+  popup.classList.add('popup_is-opened');
+});
+
+profileAddButton.addEventListener('click', function(){
+  popup.classList.add('popup_is-opened');
+});
+
+// cardMage.addEventListener('click', function(){
+//   popup.classList.add('popup_is-opened');
+// });
+
+popupCloseButton.addEventListener('click', function(){
+  popup.classList.remove('popup_is-opened');
+}); 
