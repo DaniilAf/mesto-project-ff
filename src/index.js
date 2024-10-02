@@ -1,3 +1,23 @@
+import addIcon from './images/add-icon.svg';
+import close from './images/close.svg';
+import deleteIcon from './images/delete-icon.svg';
+import editIcon from './images/edit-icon.svg';
+import likeActive from './images/like-active.svg';
+import likeInactive from './images/like-inactive.svg';
+
+
+const allIconCards = [
+  { name: 'add icon', link: addIcon },
+  { name: 'close', link: close },
+  { name: 'delete icon', link: deleteIcon },
+  { name: 'edit icon', link: editIcon },
+  { name: 'like active', link: likeActive },
+  { name: 'like inactive', link: likeInactive },
+]; 
+
+import './pages/index.css';
+import { initialCards } from './scripts/cards.js';
+
 // @todo: Темплейт карточки
 const cardTemplate = document.querySelector('#card-template').content;
 
