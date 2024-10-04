@@ -1,7 +1,8 @@
 import './pages/index.css';
 import { initialCards } from './scripts/cards.js';
 
-import { openPopup } from './scripts/modal.js';
+import { openModal, closeModal } from './scripts/modal.js';
+// import { closePopupEsc } from './scripts/modal.js';
 
 // @todo: Темплейт карточки
 const cardTemplate = document.querySelector('#card-template').content;
@@ -29,7 +30,7 @@ function createCard(element, delCard){
   });
 
   cardImage.addEventListener('click', () => {
-    openPopup(popupTypeImage)
+    openModal(popupTypeImage)
   });
 
   return cardElement; 
@@ -60,13 +61,36 @@ const popupTypeNewCard = page.querySelector('.popup_type_new-card');
 
 // Открытие Popup по клику
 buttonProfileEdit.addEventListener('click', () => {
-  openPopup(popupTypeEdit)});
+  // nameInput.value = page.querySelector('.profile__title').textContent;
+  // // jobInput.value = page.querySelector('.profile__description').textContent;
+  openModal(popupTypeEdit)});
 
 profileAddButton.addEventListener('click', () => {
-  openPopup(popupTypeNewCard)});
+  openModal(popupTypeNewCard)});
 
+//закрытия Popup (крестик)
+const popupCloseTypeEditBtn = popupTypeEdit.querySelector('.popup__close');
+const popupCloseTypeNewCardBtn = popupTypeNewCard.querySelector('.popup__close');
+const popupCloseTypeImageBtn = popupTypeImage.querySelector('.popup__close');
+
+closeModal(popupCloseTypeEditBtn, popupTypeEdit);
+closeModal(popupCloseTypeNewCardBtn, popupTypeNewCard);
+closeModal(popupCloseTypeImageBtn, popupTypeImage);
+
+// popupTypeEdit.addEventListener('keydown', closePopupEsc);
 // buttonProfileEdit.addEventListener('click', function() {
 //   nameInput.value = page.querySelector('.profile__title').textContent;
 //   jobInput.value = page.querySelector('.profile__description').textContent;
 //   openPopup(popupTypeEdit);
+// });
+
+// const form = document.forms.add;
+// const artist = form.elements.artist;
+// const title = form.elements.title;
+
+// form.addEventListener('submit', function (evt) {
+//   evt.preventDefault();
+//   addSong(artisr.value, title.value);
+//   artist.value = '';
+//   title.value = '';
 // });
