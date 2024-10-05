@@ -1,6 +1,7 @@
 function openModal(popup){
   popup.classList.add('popup_is-animated');
   popup.classList.add('popup_is-opened');
+  document.addEventListener('keydown', closePopupEsc);
 };
 
 function closeModal(btn, popup) {
@@ -9,7 +10,7 @@ function closeModal(btn, popup) {
   }))
 };
 
-function closeEsc(evt) {
+function closePopupEsc(evt) {
     if (evt.key === 'Enter'){
     popup.classList.remove('popup_is-opened')};
   };
@@ -20,4 +21,3 @@ function closeEsc(evt) {
   // }
 
 export { openModal, closeModal };
-// export { closePopupEsc };

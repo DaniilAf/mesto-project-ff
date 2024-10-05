@@ -49,33 +49,37 @@ initialCards.forEach(function(elem) {
 
 
 
-// Кнопки вызова POPUP
+// Кнопки открытия POPUP
 const page = document.querySelector('.page');
 const buttonProfileEdit = page.querySelector('.profile__edit-button');
 const profileAddButton = page.querySelector('.profile__add-button');
 
 // POPUP
-const popupTypeImage = page.querySelector('.popup_type_image');
 const popupTypeEdit = page.querySelector('.popup_type_edit');
+const popupTypeImage = page.querySelector('.popup_type_image');
 const popupTypeNewCard = page.querySelector('.popup_type_new-card');
+
+const nameInput = popupTypeEdit.querySelector('.popup__input_type_name');
+const jobInput = popupTypeEdit.querySelector('.popup__input_type_description');
+
+//Кнопки закрытия Popup (крестик)
+const popupCloseTypeEditBtn = popupTypeEdit.querySelector('.popup__close');
+const popupCloseTypeNewCardBtn = popupTypeNewCard.querySelector('.popup__close');
+const popupCloseTypeImageBtn = popupTypeImage.querySelector('.popup__close');
 
 // Открытие Popup по клику
 buttonProfileEdit.addEventListener('click', () => {
-  // nameInput.value = page.querySelector('.profile__title').textContent;
-  // // jobInput.value = page.querySelector('.profile__description').textContent;
+  nameInput.value = page.querySelector('.profile__title').textContent;
+  jobInput.value = page.querySelector('.profile__description').textContent;
   openModal(popupTypeEdit)});
 
 profileAddButton.addEventListener('click', () => {
   openModal(popupTypeNewCard)});
 
-//закрытия Popup (крестик)
-const popupCloseTypeEditBtn = popupTypeEdit.querySelector('.popup__close');
-const popupCloseTypeNewCardBtn = popupTypeNewCard.querySelector('.popup__close');
-const popupCloseTypeImageBtn = popupTypeImage.querySelector('.popup__close');
-
 closeModal(popupCloseTypeEditBtn, popupTypeEdit);
 closeModal(popupCloseTypeNewCardBtn, popupTypeNewCard);
 closeModal(popupCloseTypeImageBtn, popupTypeImage);
+
 
 // popupTypeEdit.addEventListener('keydown', closePopupEsc);
 // buttonProfileEdit.addEventListener('click', function() {
