@@ -29,7 +29,11 @@ function createCard(element, delCard){
     delCard(cardElement);
   });
 
+//открытие popup картички
   cardImage.addEventListener('click', () => {
+    popupImage.src = cardImage.src;
+    popupImage.alt = cardImage.alt;
+    popupCaption.textContent = cardTitle.textContent;
     openModal(popupTypeImage)
   });
 
@@ -58,7 +62,10 @@ const profileAddButton = page.querySelector('.profile__add-button');
 const popupTypeEdit = page.querySelector('.popup_type_edit');
 const popupTypeImage = page.querySelector('.popup_type_image');
 const popupTypeNewCard = page.querySelector('.popup_type_new-card');
+const popupImage = popupTypeImage.querySelector('.popup__image');
+const popupCaption = popupTypeImage.querySelector('.popup__caption');
 
+//инпуты для редактирования попапа редактирования профиля
 const nameInput = popupTypeEdit.querySelector('.popup__input_type_name');
 const jobInput = popupTypeEdit.querySelector('.popup__input_type_description');
 
