@@ -65,9 +65,13 @@ const popupTypeNewCard = page.querySelector('.popup_type_new-card');
 const popupImage = popupTypeImage.querySelector('.popup__image');
 const popupCaption = popupTypeImage.querySelector('.popup__caption');
 
+const formElement = popupTypeEdit.querySelector('.popup__form');
+
+
 //инпуты для редактирования попапа редактирования профиля
-const nameInput = popupTypeEdit.querySelector('.popup__input_type_name');
-const jobInput = popupTypeEdit.querySelector('.popup__input_type_description');
+const nameInput = formElement.querySelector('.popup__input_type_name');
+const jobInput = formElement.querySelector('.popup__input_type_description');
+const saveBtn = formElement.querySelector('.popup__button');
 
 //Кнопки закрытия Popup (крестик)
 const popupCloseTypeEditBtn = popupTypeEdit.querySelector('.popup__close');
@@ -88,20 +92,11 @@ closeModal(popupCloseTypeNewCardBtn, popupTypeNewCard);
 closeModal(popupCloseTypeImageBtn, popupTypeImage);
 
 
-// popupTypeEdit.addEventListener('keydown', closePopupEsc);
-// buttonProfileEdit.addEventListener('click', function() {
-//   nameInput.value = page.querySelector('.profile__title').textContent;
-//   jobInput.value = page.querySelector('.profile__description').textContent;
-//   openPopup(popupTypeEdit);
-// });
 
-// const form = document.forms.add;
-// const artist = form.elements.artist;
-// const title = form.elements.title;
-
-// form.addEventListener('submit', function (evt) {
-//   evt.preventDefault();
-//   addSong(artisr.value, title.value);
-//   artist.value = '';
-//   title.value = '';
-// });
+function handleFormSubmit(evt) {
+    evt.preventDefault();
+    page.querySelector('.profile__title').textContent = nameInput.value;
+    page.querySelector('.profile__description').textContent = jobInput.value;
+}
+formElement.addEventListener('submit', handleFormSubmit); 
+closeModal(popupCloseTypeEditBtn, popupTypeEdit)
