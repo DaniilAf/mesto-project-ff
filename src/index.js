@@ -2,7 +2,6 @@ import './pages/index.css';
 import { initialCards } from './scripts/cards.js';
 
 import { openModal, closeModal } from './scripts/modal.js';
-// import { closePopupEsc } from './scripts/modal.js';
 
 // @todo: Темплейт карточки
 const cardTemplate = document.querySelector('#card-template').content;
@@ -34,7 +33,8 @@ function createCard(element, delCard){
     popupImage.src = cardImage.src;
     popupImage.alt = cardImage.alt;
     popupCaption.textContent = cardTitle.textContent;
-    openModal(popupTypeImage)
+    openModal(popupTypeImage);
+    document.addEventListener('keydown', closePopupEsc);
   });
 
   return cardElement; 
@@ -68,10 +68,15 @@ const popupCaption = popupTypeImage.querySelector('.popup__caption');
 const formElement = popupTypeEdit.querySelector('.popup__form');
 
 
-//инпуты для редактирования попапа редактирования профиля
+//инпуты для редактирования popup редактирования профиля
 const nameInput = formElement.querySelector('.popup__input_type_name');
 const jobInput = formElement.querySelector('.popup__input_type_description');
-const saveBtn = formElement.querySelector('.popup__button');
+const saveBtnEditProfile = formElement.querySelector('.popup__button');
+
+//ипруты popup добавления карточек
+const formPopupTypeNewCard = popupTypeNewCard.querySelector('.popup__form');
+const nameInputNewCard = formPopupTypeNewCard.querySelector('.popup__input_type_card-name');
+const linkInputNewCard = formPopupTypeNewCard.querySelector('.popup__input_type_url');
 
 //Кнопки закрытия Popup (крестик)
 const popupCloseTypeEditBtn = popupTypeEdit.querySelector('.popup__close');
@@ -90,7 +95,7 @@ profileAddButton.addEventListener('click', () => {
 closeModal(popupCloseTypeEditBtn, popupTypeEdit);
 closeModal(popupCloseTypeNewCardBtn, popupTypeNewCard);
 closeModal(popupCloseTypeImageBtn, popupTypeImage);
-
+closeModal(saveBtnEditProfile, popupTypeEdit);
 
 
 function handleFormSubmit(evt) {
@@ -98,5 +103,15 @@ function handleFormSubmit(evt) {
     page.querySelector('.profile__title').textContent = nameInput.value;
     page.querySelector('.profile__description').textContent = jobInput.value;
 }
-formElement.addEventListener('submit', handleFormSubmit); 
-closeModal(popupCloseTypeEditBtn, popupTypeEdit)
+formElement.addEventListener('submit', handleFormSubmit);
+
+
+
+function addCard(a, b){
+  evt.preventDefault();
+  let newCard = {name: a, link: b}
+  a = nameInputNewCard.value;
+  b = linkInputNewCard.value;
+  initialCards.unshift(newCard);
+}
+formElement.addEventListener('submit', addCard);

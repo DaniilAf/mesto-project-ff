@@ -7,17 +7,15 @@ function openModal(popup){
 function closeModal(btn, popup) {
   btn.addEventListener('click', (function(){
     popup.classList.remove('popup_is-opened');
+    document.removeEventListener('keydown', closePopupEsc);
   }))
 };
 
-function closePopupEsc(evt) {
-    if (evt.key === 'Enter'){
-    popup.classList.remove('popup_is-opened')};
-  };
-
-  // function closePopupEsc(popup) {
-  //   popup.classList.remove('popup_is-opened');
-  //   document.removeEventListener('keydown' closeEsc);
-  // }
+  function closePopupEsc(evt){
+    if (evt.key === 'Escape'){
+      popupTypeEdit.classList.remove('popup_is-opened');
+      document.removeEventListener('keydown', closePopupEsc);
+    };
+    }
 
 export { openModal, closeModal };
