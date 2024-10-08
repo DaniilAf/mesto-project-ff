@@ -112,19 +112,20 @@ closeModal(saveBtnEditProfile, popupTypeEdit);
 closeModal(popupCloseTypeNewCardBtn, popupTypeNewCard);
 closeModal(popupCloseTypeImageBtn, popupTypeImage);
 
-// function addCard (evt) {
-//   evt.preventDefault();
-//   const newCrd = {
-//     name: nameInputNewCard.value,
-//     link: linkInputNewCard.value
-//   };
-//   initialCards.push(newCrd);
-//   nameInputNewCard.value = '';
-//   linkInputNewCard.value = '';
-//   closeModal(saveCardBtn, popupTypeNewCard);
-// }
+function addCard (evt) {
+  console.log(initialCards);
+  evt.preventDefault();
+  const newCrd = {
+    name: nameInputNewCard.value,
+    link: linkInputNewCard.value
+  };
+  initialCards.unshift(newCrd);;
+  nameInputNewCard.value = '';
+  linkInputNewCard.value = '';
+  popupTypeNewCard.classList.remove('popup_is-opened');
+  console.log(initialCards);
+  return(initialCards);
+}
+formPopupTypeNewCard.addEventListener('submit', addCard);
 
-// formPopupTypeNewCard.addEventListener('submit', addCard);
-
-// saveCardBtn.addEventListener('click', (addCard));
- 
+saveCardBtn.addEventListener('click', (addCard));
