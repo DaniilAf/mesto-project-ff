@@ -1,41 +1,37 @@
-// @todo: Темплейт карточки
-const cardTemplate = document.querySelector('#card-template').content;
-
 // @todo: Функция создания карточки
-function createCard(element, delCard ){
+function createCard(elem, deleteCard, imageClick, cardLike) {
+  // @todo: Темплейт карточки
+  const cardTemplate = document.querySelector('#card-template').content;
   const cardElement = cardTemplate.querySelector('.places__item').cloneNode(true);
   const cardImage = cardElement.querySelector('.card__image');
   const cardTitle = cardElement.querySelector('.card__title');
+  const deleteCardButton = cardElement.querySelector('.card__delete-button');
+  deleteCardButton.addEventListener('click', deleteCard);
 
-  cardImage.src = element.link;
-  cardImage.alt = element.name;
-  cardTitle.textContent = element.name;
-
-  cardElement.querySelector('.card__like-button').addEventListener('click', function (evt) {
-    evt.target.classList.toggle('card__like-button_is-active')
-  });
-
+  const popupTypeImage = document.querySelector('.popup_type_image');
   cardImage.addEventListener('click', function () {
-    const popupImage = document.querySelector('.popup__image');
-    const popupCaption = document.querySelector('.popup__caption');
-    popupImage.src = cardImage.src;
-    popupImage.alt = cardImage.alt;
-    popupCaption.textContent = cardTitle.textContent
-    document.querySelector('.popup_type_image').classList.add('popup_is-opened');
+    imageClick(elem, popupTypeImage);
   });
 
-  const deleteCardButton = cardElement.querySelector ('.card__delete-button');
-  deleteCardButton.addEventListener('click', () => {
-    delCard(cardElement);
-  });
+  const cardLikeButton = cardElement.querySelector('.card__like-button');
+  cardLikeButton.addEventListener('click', cardLike);
 
-  return cardElement; 
-  };
+  cardImage.src = elem.link;
+  cardImage.alt = elem.name;
+  cardTitle.textContent = elem.name;
+
+  return cardElement;
+}
 
 // @todo: Функция удаления карточки
-function removeCard(card) {
-  card.remove();
-};
+function deleteCard(evt) {
+  const cardDelete = evt.target.closest('.places__item');
+  cardDelete.remove();
+  }
 
+// @todo: Функция лайка карточки
+function cardLike(evt) {
+    evt.target.classList.toggle('card__like-button_is-active');
+  }
 
-export { createCard, removeCard };
+  export { createCard, deleteCard, cardLike };

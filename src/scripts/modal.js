@@ -1,7 +1,7 @@
 function openModal(popup){
-  popup.classList.add('popup_is-animated');
   popup.classList.add('popup_is-opened');
 };
+
 
 function closeModal(btn, popup) {
   btn.addEventListener('click', (function(){
