@@ -10,8 +10,8 @@ function closeModal(btn, popup) {
 };
 
 function closePopupEsc(popup){
-document.addEventListener('keydown', (e) => {
-  if (e.code === "Escape") {
+document.addEventListener('keydown', (evt) => {
+  if (evt.code === "Escape") {
     popup.classList.remove('popup_is-opened');
     document.removeEventListener('keydown', closePopupEsc);
   }
