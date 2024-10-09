@@ -8,9 +8,8 @@ function createCard(elem, deleteCard, imageClick, cardLike) {
   const deleteCardButton = cardElement.querySelector('.card__delete-button');
   deleteCardButton.addEventListener('click', deleteCard);
 
-  const popupTypeImage = document.querySelector('.popup_type_image');
   cardImage.addEventListener('click', function () {
-    imageClick(elem, popupTypeImage);
+    imageClick(elem);
   });
 
   const cardLikeButton = cardElement.querySelector('.card__like-button');

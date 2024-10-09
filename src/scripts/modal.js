@@ -1,29 +1,26 @@
 function openModal(popup){
   popup.classList.add('popup_is-opened');
+  document.addEventListener('keydown', closePopupEsc);
 };
 
-
-function closeModal(btn, popup) {
-  btn.addEventListener('click', (function(){
-    popup.classList.remove('popup_is-opened');
-  }))
+function closeModal(popup) {
+  popup.classList.remove('popup_is-opened');
+  document.removeEventListener('keydown', closePopupEsc);
 };
 
-function closePopupEsc(popup){
-document.addEventListener('keydown', (evt) => {
-  if (evt.code === "Escape") {
-    popup.classList.remove('popup_is-opened');
-    document.removeEventListener('keydown', closePopupEsc);
+function closePopupEsc(event) {
+  if(event.key === 'Escape') {
+    closeModal(document.querySelector('.popup_is-opened'));
   }
-});
 }
 
 function closePopupOverlay(popup){
   popup.addEventListener('click', (evt) => {
     if (evt.target === popup) {
       popup.classList.remove('popup_is-opened');
+      document.removeEventListener('keydown', closePopupEsc);
     }
   });
 }
 
-export { openModal, closeModal, closePopupEsc, closePopupOverlay };
+export { openModal, closeModal, closePopupOverlay };
