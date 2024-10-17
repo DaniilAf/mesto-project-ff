@@ -1,14 +1,16 @@
 import './pages/index.css';
+import { enableValidation } from './scripts/validation.js';
 import { initialCards } from './scripts/cards.js';
 import {createCard, deleteCard, cardLike} from './scripts/card.js';
 import { openModal, closeModal, closePopupOverlay } from './scripts/modal.js';
 
 // @todo: DOM узлы
 const placesList = document.querySelector('.places__list');
-
 const page = document.querySelector('.page');
-
 const popups = document.querySelectorAll('.popup');
+
+
+//Для Валидации 
 
 //кнопки Редактирования профиля
 const buttonProfileEdit = page.querySelector('.profile__edit-button');
@@ -48,10 +50,11 @@ document.querySelectorAll('.popup').forEach(function (popup) {
 })
 
 // Открытие Popup Редактирования профиля
-buttonProfileEdit.addEventListener('click', () => {
+buttonProfileEdit.addEventListener('click', () => { 
   nameInput.value = page.querySelector('.profile__title').textContent;
   jobInput.value = page.querySelector('.profile__description').textContent;
-  openModal(popupTypeEdit)});
+  openModal(popupTypeEdit);
+});
 
 //функция Редактирования профиля
 function handleProfileFormSubmit(evt) {
@@ -105,3 +108,4 @@ function openCardImage(elem) {
   }
   popupTypeNewCardForm.addEventListener('submit', addNewCard);
 
+  enableValidation ();
