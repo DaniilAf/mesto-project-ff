@@ -1,5 +1,5 @@
 import './pages/index.css';
-import { enableValidation } from './scripts/validation.js';
+import { enableValidation, clearValidation } from './scripts/validation.js';
 import { initialCards } from './scripts/cards.js';
 import {createCard, deleteCard, cardLike} from './scripts/card.js';
 import { openModal, closeModal, closePopupOverlay } from './scripts/modal.js';
@@ -8,9 +8,6 @@ import { openModal, closeModal, closePopupOverlay } from './scripts/modal.js';
 const placesList = document.querySelector('.places__list');
 const page = document.querySelector('.page');
 const popups = document.querySelectorAll('.popup');
-
-
-//Для Валидации 
 
 //кнопки Редактирования профиля
 const buttonProfileEdit = page.querySelector('.profile__edit-button');
@@ -38,6 +35,16 @@ const popupTypeImage = page.querySelector('.popup_type_image');
 const popupImage = popupTypeImage.querySelector('.popup__image');
 const popupImageCaption = popupTypeImage.querySelector('.popup__caption');
 
+// Валидации
+const validationConfig = {
+  formSelector: '.popup__form',
+  inputSelector: '.popup__input',
+  submitButtonSelector: '.popup__button',
+  inactiveButtonClass: 'button_inactive', 
+  inputErrorClass: '.form-input-error',
+  errorClass: 'form__input-error_active', 
+};
+
 // @todo: Вывести карточки на страницу
 initialCards.forEach(elem => {
   const createdCard = createCard(elem, deleteCard, openCardImage, cardLike);
@@ -54,6 +61,7 @@ buttonProfileEdit.addEventListener('click', () => {
   nameInput.value = page.querySelector('.profile__title').textContent;
   jobInput.value = page.querySelector('.profile__description').textContent;
   openModal(popupTypeEdit);
+  clearValidation(formElementTypeEdit, validationConfig);
 });
 
 //функция Редактирования профиля
@@ -69,14 +77,18 @@ formElementTypeEdit.addEventListener('submit', handleProfileFormSubmit);
 popups.forEach((popup) => {
   const closeButton = popup.querySelector(".popup__close")
   closeButton.addEventListener("click", () => {
-     closeModal(popup);
+    closeModal(popup);
   });
 });
   closePopupOverlay(popupTypeEdit);
 
 // Открытие Popup добавления карточки
   profileAddButton.addEventListener('click', () => {
-  openModal(popupTypeNewCard)});
+    nameInputNewCard.value = '';
+    linkInputNewCard.value = '';
+    openModal(popupTypeNewCard);
+    clearValidation(popupTypeNewCardForm, validationConfig);
+});
 
 // Закрытие Popup добавления карточки
   closePopupOverlay(popupTypeNewCard);
@@ -108,4 +120,4 @@ function openCardImage(elem) {
   }
   popupTypeNewCardForm.addEventListener('submit', addNewCard);
 
-  enableValidation ();
+  enableValidation(validationConfig);
