@@ -1,7 +1,6 @@
-// import { } from './scripts/api.js';
+import { getAllTodo, createTodo, createProfile, gettProfileData } from './scripts/api.js';
 import './pages/index.css';
 import { enableValidation, clearValidation } from './scripts/validation.js';
-import { initialCards } from './scripts/cards.js';
 import {createCard, deleteCard, cardLike} from './scripts/card.js';
 import { openModal, closeModal, closePopupOverlay } from './scripts/modal.js';
 
@@ -14,6 +13,8 @@ const popups = document.querySelectorAll('.popup');
 const buttonProfileEdit = page.querySelector('.profile__edit-button');
 
 //Popup Редактирования профиля
+const profileTitle = page.querySelector('.profile__title');
+const profileDescription = page.querySelector('.profile__description');
 const popupTypeEdit = page.querySelector('.popup_type_edit');
 const formElementTypeEdit = popupTypeEdit.querySelector('.popup__form');
 const nameInput = formElementTypeEdit.querySelector('.popup__input_type_name');
@@ -36,6 +37,13 @@ const popupTypeImage = page.querySelector('.popup_type_image');
 const popupImage = popupTypeImage.querySelector('.popup__image');
 const popupImageCaption = popupTypeImage.querySelector('.popup__caption');
 
+//Получение информации о пользователе
+gettProfileData()
+.then((response) => {
+  profileTitle.textContent = response.name,
+  profileDescription.textContent = response.about
+});
+
 // Валидации
 const validationConfig = {
   formSelector: '.popup__form',
@@ -47,10 +55,14 @@ const validationConfig = {
 };
 
 // @todo: Вывести карточки на страницу
-initialCards.forEach(elem => {
-  const createdCard = createCard(elem, deleteCard, openCardImage, cardLike);
-  placesList.append(createdCard);
-});
+getAllTodo()
+.then((response) => {
+  response.forEach(elem => {
+      const createdCard = createCard(elem, deleteCard, openCardImage, cardLike);
+      placesList.append(createdCard);
+    })}
+    );
+
 
 //Плавное открытие/закрытие popup
 document.querySelectorAll('.popup').forEach(function (popup) {
@@ -59,8 +71,8 @@ document.querySelectorAll('.popup').forEach(function (popup) {
 
 // Открытие Popup Редактирования профиля
 buttonProfileEdit.addEventListener('click', () => { 
-  nameInput.value = page.querySelector('.profile__title').textContent;
-  jobInput.value = page.querySelector('.profile__description').textContent;
+  nameInput.value = profileTitle.textContent;
+  jobInput.value = profileDescription.textContent;
   openModal(popupTypeEdit);
   clearValidation(formElementTypeEdit, validationConfig);
 });
@@ -68,8 +80,14 @@ buttonProfileEdit.addEventListener('click', () => {
 //функция Редактирования профиля
 function handleProfileFormSubmit(evt) {
   evt.preventDefault();
-  page.querySelector('.profile__title').textContent = nameInput.value;
-  page.querySelector('.profile__description').textContent = jobInput.value;
+
+  const ProfileData = {
+  name: nameInput.value,
+  about: jobInput.value
+  }
+
+  createProfile(ProfileData);
+
   closeModal(popupTypeEdit);
 };
 formElementTypeEdit.addEventListener('submit', handleProfileFormSubmit);
@@ -105,6 +123,7 @@ function openCardImage(elem) {
 //Закрытие Popup картинки
   closePopupOverlay(popupTypeImage);
 
+//Отправка карточки на сервер
   function addNewCard (evt) {
     evt.preventDefault();
   
@@ -115,6 +134,8 @@ function openCardImage(elem) {
   
     const createdCard = createCard(elem, deleteCard, openCardImage, cardLike);
     placesList.prepend(createdCard);
+
+    createTodo(elem);
   
     popupTypeNewCardForm.reset();
     closeModal(popupTypeNewCard);
@@ -123,12 +144,10 @@ function openCardImage(elem) {
 
   enableValidation(validationConfig);
 
-fetch('https://nomoreparties.co/v1/wff-cohort-24/users/me ' , {
-    headers: {
-      authorization: '0f0175eb-54aa-4ff1-94e6-d4abdbbdf33b'
-    }
-  })
-  .then(res => res.json())
-  .then((result) => {
-    console.log(result);
-  }); 
+
+  //получение обоих запросов
+  // Promise.all([getAllTodo(), createTodo(newCardData)])
+  // .then((allCards, newCard) => {
+
+  // })
+
