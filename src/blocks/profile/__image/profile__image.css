@@ -9,6 +9,22 @@
   margin: 0 29px 0 0;
 }
 
+.profile__image::after {
+  content: '';
+  position: absolute;
+  visibility: hidden;
+  width: 120px;
+  height: 120px;
+  background: url('../../../images/Vector.svg') center no-repeat;
+  border-radius: 50%;
+  background-color: rgba(0, 0, 0, 0.8);
+}
+
+.profile__image:hover::after{
+  visibility: visible;
+  cursor: pointer;
+}
+
 @media screen and (max-width: 740px) {
   .profile__image {
     margin: 0 10px 0 0;

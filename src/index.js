@@ -1,4 +1,9 @@
-import { getAllTodo, createTodo, createProfile, gettProfileData } from './scripts/api.js';
+import { 
+  getAllCards, 
+  createTodo, 
+  createProfile, 
+  getProfileData, 
+  createAvatar } from './scripts/api.js';
 import './pages/index.css';
 import { enableValidation, clearValidation } from './scripts/validation.js';
 import {createCard, deleteCard, cardLike} from './scripts/card.js';
@@ -8,6 +13,12 @@ import { openModal, closeModal, closePopupOverlay } from './scripts/modal.js';
 const placesList = document.querySelector('.places__list');
 const page = document.querySelector('.page');
 const popups = document.querySelectorAll('.popup');
+
+//Редактирование Аватара
+const profileAvatarImage = page.querySelector('.profile__image');
+const popupTypeAvatar = page.querySelector('.popup_type_avatar');
+const popupAvatarForm = popupTypeAvatar.querySelector('.popup__form');
+const popupInputAvatar = popupAvatarForm.querySelector('.popup__input_type_url_avatar');
 
 //кнопки Редактирования профиля
 const buttonProfileEdit = page.querySelector('.profile__edit-button');
@@ -38,10 +49,13 @@ const popupImage = popupTypeImage.querySelector('.popup__image');
 const popupImageCaption = popupTypeImage.querySelector('.popup__caption');
 
 //Получение информации о пользователе
-gettProfileData()
+getProfileData()
 .then((response) => {
   profileTitle.textContent = response.name,
   profileDescription.textContent = response.about
+})
+.catch((err) => {
+  console.log(err);
 });
 
 // Валидации
@@ -55,19 +69,54 @@ const validationConfig = {
 };
 
 // @todo: Вывести карточки на страницу
-getAllTodo()
-.then((response) => {
-  response.forEach(elem => {
-      const createdCard = createCard(elem, deleteCard, openCardImage, cardLike);
+function renderCard(elem, userInfo) {
+  elem.forEach(elem => {
+      const createdCard = createCard(elem, deleteCard, openCardImage, cardLike, userInfo);
       placesList.append(createdCard);
-    })}
-    );
+    });
+  }
 
+//получение обоих запросов
+Promise.all([getAllCards(), getProfileData()])
+.then(([elem, userInfo]) => {
+renderCard(elem, userInfo);
+})
+.catch((err) => {
+  console.log(err);
+});
 
+    
 //Плавное открытие/закрытие popup
 document.querySelectorAll('.popup').forEach(function (popup) {
   popup.classList.add('popup_is-animated');
 })
+
+//Открытие Popup Аватара
+profileAvatarImage.addEventListener('click', () => { 
+  popupInputAvatar.value = '';
+  openModal(popupTypeAvatar);
+  clearValidation(popupAvatarForm, validationConfig);
+});
+
+//функция Редактирования Аватара
+function handleAvatarFormSubmit(evt) {
+  evt.preventDefault();
+
+  const avatarData = {
+  avatar: popupInputAvatar.value
+  }
+
+  createAvatar(avatarData)
+  .catch((err) => {
+    console.log(err);
+  });
+
+  closeModal(popupTypeAvatar);
+};
+popupAvatarForm.addEventListener('submit', handleAvatarFormSubmit);
+
+// Закрытие Popup Редактирования Аватара
+closePopupOverlay(popupTypeAvatar);
 
 // Открытие Popup Редактирования профиля
 buttonProfileEdit.addEventListener('click', () => { 
@@ -86,7 +135,10 @@ function handleProfileFormSubmit(evt) {
   about: jobInput.value
   }
 
-  createProfile(ProfileData);
+  createProfile(ProfileData)
+  .catch((err) => {
+    console.log(err);
+  })
 
   closeModal(popupTypeEdit);
 };
@@ -131,11 +183,16 @@ function openCardImage(elem) {
       name: nameInputNewCard.value,
       link: linkInputNewCard.value
     }
-  
-    const createdCard = createCard(elem, deleteCard, openCardImage, cardLike);
+    
+    createTodo(elem)
+    .then(elem => {
+    const createdCard = createCard(elem, deleteCard, openCardImage, cardLike, elem.owner._id);
     placesList.prepend(createdCard);
+  })
 
-    createTodo(elem);
+    .catch((err) => {
+      console.log(err);
+    });
   
     popupTypeNewCardForm.reset();
     closeModal(popupTypeNewCard);
@@ -143,11 +200,4 @@ function openCardImage(elem) {
   popupTypeNewCardForm.addEventListener('submit', addNewCard);
 
   enableValidation(validationConfig);
-
-
-  //получение обоих запросов
-  // Promise.all([getAllTodo(), createTodo(newCardData)])
-  // .then((allCards, newCard) => {
-
-  // })
 
