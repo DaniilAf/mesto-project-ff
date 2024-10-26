@@ -60,7 +60,7 @@ getProfileData()
 .then((response) => {
   profileTitle.textContent = response.name,
   profileDescription.textContent = response.about,
-  profileAvatarImage.scr = response.avatar
+  profileAvatarImage.style.backgroundImage = `url(${response.avatar})`;
 })
 .catch((err) => {
   console.log(err);
