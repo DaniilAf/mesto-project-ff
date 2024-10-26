@@ -26,24 +26,18 @@ export const createProfile = (newProfileData) => {
     body: JSON.stringify(newProfileData)
   })
   .then(handleResponse)
-  .catch((err) => {
-    console.log(err); 
-  }); 
 };
 
 //получение карточек
 export const getAllCards = () => {
   return fetch(`${PATH}/v1/wff-cohort-24/cards` , {
     headers: {
-      authorization: '0f0175eb-54aa-4ff1-94e6-d4abdbbdf33b'
+      authorization: '0f0175eb-54aa-4ff1-94e6-d4abdbbdf33b',
+      'Content-Type': 'application/json'
     }
   })
   .then(handleResponse)
-  .catch((err) => {
-    console.log(err);
-  }); 
 };
-
 
   //Отправка карточки
   export const createTodo = (newCardData) => {
@@ -70,22 +64,9 @@ export const deleteCardServ = (cardId) => {
     .then(handleResponse)
   };
 
-//Смена аватара
-export const createAvatar = (newAvatar) => {
-  return fetch(`${PATH}/v1/cohortId/users/me/avatar`, {
-    method: 'PATCH',
-    headers: {
-      authorization: '0f0175eb-54aa-4ff1-94e6-d4abdbbdf33b',
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(newAvatar)
-  })
-  .then(handleResponse) 
-};
-
 //Лайк карточки
 export const addLikeCard = (cardId) => {
-  return fetch(`${PATH}/cards/likes/${cardId}`, {
+  return fetch(`${PATH}/v1/wff-cohort-24/cards/likes/${cardId}`, {
       method: 'PUT',
       headers: {
         authorization: '0f0175eb-54aa-4ff1-94e6-d4abdbbdf33b',
@@ -97,7 +78,7 @@ export const addLikeCard = (cardId) => {
 
 //Удаление лайка
 export const deleteLikeCard = (cardId) => {
-  return fetch(`$${PATH}/cards/likes/${cardId}`, {
+  return fetch(`$${PATH}/v1/wff-cohort-24/cards/likes/${cardId}`, {
       method: 'DELETE',
       headers: {
         authorization: '0f0175eb-54aa-4ff1-94e6-d4abdbbdf33b',
@@ -106,3 +87,16 @@ export const deleteLikeCard = (cardId) => {
   })
   .then(handleResponse);
 }
+
+//Смена аватара
+export const createAvatar = (newAvatar) => {
+  return fetch(`${PATH}/v1/wff-cohort-24/users/me/avatar` , {
+    method: 'PATCH',
+    headers: {
+      authorization: '0f0175eb-54aa-4ff1-94e6-d4abdbbdf33b',
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(newAvatar)
+  })
+  .then(handleResponse)
+};

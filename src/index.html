@@ -14,7 +14,7 @@
   </header>
   <main class="content">
     <section class="profile page__section">
-      <div class="profile__image"  style="background-image: url(<%=require('./images/avatar.jpg')%>)";></div>
+      <div class="profile__image" src=""></div>
       <div class="profile__info">
         <h1 class="profile__title"></h1>
         <button class="profile__edit-button" type="button"></button>
@@ -70,19 +70,19 @@
     <div class="popup__content">
       <button type="button" class="popup__close"></button>
       <h3 class="popup__title">Обновить аватар</h3>
-      <form class="popup__form" name="new-place" novalidate>
+      <form class="popup__form" name="new-avatar" novalidate>
         <input type="url" 
         id="link-avatar-input" 
-        name="link-avatar" 
+        name="avatar-link" 
         class="popup__input popup__input_type_url_avatar" 
         placeholder="Ссылка на аватар" 
         required>
-        <span class="link-input_avatar-error form-input-error"></span>
+        <span class="link-avatar-input-error form-input-error"></span>
         <button type="submit" class="button popup__button">Сохранить</button>
       </form>
     </div>
   </div>
-  
+
   <div class="popup popup_type_new-card">
     <div class="popup__content">
       <button type="button" class="popup__close"></button>
@@ -106,7 +106,7 @@
         placeholder="Ссылка на картинку" 
         required>
         <span class="link-input-error form-input-error"></span>
-        <button type="submit" class="button popup__button">Создать</button>
+        <button type="submit" class="button popup__button">Сохранить</button>
       </form>
     </div>
   </div>
