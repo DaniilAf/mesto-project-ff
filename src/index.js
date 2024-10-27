@@ -55,17 +55,6 @@ function waitingForSaving(saving, button) {
   button.textContent = saving ? 'Сохранение...' : 'Сохранить';
 }
 
-//Получение информации о пользователе
-getProfileData()
-.then((response) => {
-  profileTitle.textContent = response.name,
-  profileDescription.textContent = response.about,
-  profileAvatarImage.style.backgroundImage = `url(${response.avatar})`;
-})
-.catch((err) => {
-  console.log(err);
-});
-
 // Валидации
 const validationConfig = {
   formSelector: '.popup__form',
@@ -84,10 +73,13 @@ function renderCard(elem, userInfo) {
     });
   }
 
-//получение обоих запросов
+//Данные о пользователе и карточках
 Promise.all([getAllCards(), getProfileData()])
 .then(([elem, userInfo]) => {
 renderCard(elem, userInfo);
+profileTitle.textContent = userInfo.name,
+profileDescription.textContent = userInfo.about,
+profileAvatarImage.style.backgroundImage = `url(${userInfo.avatar})`;
 })
 .catch((err) => {
   console.log(err);
@@ -116,11 +108,16 @@ function handleAvatarFormSubmit(evt) {
   }
 
   createAvatar(avatarData)
+  .then((res) => {
+    profileAvatarImage.style.backgroundImage = `url(${res.avatar})`;
+    closeModal(popupTypeAvatar);
+  })
   .catch((err) => {
     console.log(err);
+  })
+  .finally(() => {
+    waitingForSaving(false, saveBtnAvatar)
   });
-
-  closeModal(popupTypeAvatar);
 };
 popupAvatarForm.addEventListener('submit', handleAvatarFormSubmit);
 
@@ -141,17 +138,23 @@ function handleProfileFormSubmit(evt) {
 
   waitingForSaving(true, saveBtnTypeEdit)
 
-  const ProfileData = {
+  const profileData = {
   name: nameInput.value,
   about: jobInput.value
   }
 
-  createProfile(ProfileData)
+  createProfile(profileData)
+  .then((res) => {
+    profileTitle.textContent = res.name,
+    profileDescription.textContent = res.about;
+    closeModal(popupTypeEdit);
+  })
   .catch((err) => {
     console.log(err);
   })
-
-  closeModal(popupTypeEdit);
+  .finally(() => {
+    waitingForSaving(false, saveBtnTypeEdit);
+});
 };
 formElementTypeEdit.addEventListener('submit', handleProfileFormSubmit);
 
@@ -194,21 +197,23 @@ function openCardImage(elem) {
   
     const elem = {
       name: nameInputNewCard.value,
-      link: linkInputNewCard.value
+      link: linkInputNewCard.value,
     }
     
     createTodo(elem)
     .then(elem => {
-    const createdCard = createCard(elem, deleteCard, openCardImage, cardLike, elem.owner._id);
+    const createdCard = createCard(elem, deleteCard, openCardImage, cardLike, elem.owner);
     placesList.prepend(createdCard);
+    popupTypeNewCardForm.reset();
+    closeModal(popupTypeNewCard);
   })
 
     .catch((err) => {
       console.log(err);
+    })
+    .finally(() => {
+      waitingForSaving(false, saveBtnNewCard)
     });
-  
-    popupTypeNewCardForm.reset();
-    closeModal(popupTypeNewCard);
   }
   popupTypeNewCardForm.addEventListener('submit', addNewCard);
 

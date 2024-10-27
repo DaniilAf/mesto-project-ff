@@ -1,4 +1,11 @@
-const PATH = 'https://nomoreparties.co';
+const config = {
+  baseUrl: "https://nomoreparties.co/v1/wff-cohort-24",
+  headers: {
+    authorization: "0f0175eb-54aa-4ff1-94e6-d4abdbbdf33b",
+    "Content-Type": "application/json",
+  },
+} 
+
 const handleResponse = (response) => {
   if(response.ok) {
     return response.json()
@@ -7,22 +14,17 @@ const handleResponse = (response) => {
 
 //Получение информации о пользователе
 export const getProfileData = () => {
-  return fetch(`${PATH}/v1/wff-cohort-24/users/me ` , {
-    headers: {
-      authorization: '0f0175eb-54aa-4ff1-94e6-d4abdbbdf33b'
-    }
+  return fetch(`${config.baseUrl}/users/me ` , {
+    headers: config.headers
   })
   .then(handleResponse)
 };
 
 // //Отправка информации о пользователе
 export const createProfile = (newProfileData) => {
-  return fetch(`${PATH}/v1/wff-cohort-24/users/me` , {
+  return fetch(`${config.baseUrl}/users/me` , {
     method: 'PATCH',
-    headers: {
-      authorization: '0f0175eb-54aa-4ff1-94e6-d4abdbbdf33b',
-      'Content-Type': 'application/json'
-    },
+    headers: config.headers,
     body: JSON.stringify(newProfileData)
   })
   .then(handleResponse)
@@ -30,23 +32,17 @@ export const createProfile = (newProfileData) => {
 
 //получение карточек
 export const getAllCards = () => {
-  return fetch(`${PATH}/v1/wff-cohort-24/cards` , {
-    headers: {
-      authorization: '0f0175eb-54aa-4ff1-94e6-d4abdbbdf33b',
-      'Content-Type': 'application/json'
-    }
+  return fetch(`${config.baseUrl}/cards` , {
+    headers: config.headers,
   })
   .then(handleResponse)
 };
 
   //Отправка карточки
   export const createTodo = (newCardData) => {
-  return fetch(`${PATH}/v1/wff-cohort-24/cards` , {
+  return fetch(`${config.baseUrl}/cards` , {
     method: 'POST',
-    headers: {
-      authorization: '0f0175eb-54aa-4ff1-94e6-d4abdbbdf33b',
-      'Content-Type': 'application/json'
-    },
+    headers: config.headers,
     body: JSON.stringify(newCardData)
   })
   .then(handleResponse)
@@ -54,48 +50,36 @@ export const getAllCards = () => {
 
 //Удаление карточки
 export const deleteCardServ = (cardId) => {
-  return fetch(`${PATH}/v1/wff-cohort-24/cards/${cardId}`, {
+  return fetch(`${config.baseUrl}/cards/${cardId}`, {
       method: 'DELETE',
-      headers: {
-        authorization: '0f0175eb-54aa-4ff1-94e6-d4abdbbdf33b',
-        'Content-Type': 'application/json'
-      }
+      headers: config.headers
     })
     .then(handleResponse)
   };
 
 //Лайк карточки
 export const addLikeCard = (cardId) => {
-  return fetch(`${PATH}/v1/wff-cohort-24/cards/likes/${cardId}`, {
+  return fetch(`${config.baseUrl}/cards/likes/${cardId}`, {
       method: 'PUT',
-      headers: {
-        authorization: '0f0175eb-54aa-4ff1-94e6-d4abdbbdf33b',
-        'Content-Type': 'application/json'
-      },
+      headers: config.headers
   })
   .then(handleResponse);
 }
 
 //Удаление лайка
 export const deleteLikeCard = (cardId) => {
-  return fetch(`$${PATH}/v1/wff-cohort-24/cards/likes/${cardId}`, {
+  return fetch(`${config.baseUrl}/cards/likes/${cardId}`, {
       method: 'DELETE',
-      headers: {
-        authorization: '0f0175eb-54aa-4ff1-94e6-d4abdbbdf33b',
-        'Content-Type': 'application/json'
-      },
+      headers: config.headers
   })
   .then(handleResponse);
 }
 
 //Смена аватара
 export const createAvatar = (newAvatar) => {
-  return fetch(`${PATH}/v1/wff-cohort-24/users/me/avatar` , {
+  return fetch(`${config.baseUrl}/users/me/avatar` , {
     method: 'PATCH',
-    headers: {
-      authorization: '0f0175eb-54aa-4ff1-94e6-d4abdbbdf33b',
-      'Content-Type': 'application/json'
-    },
+    headers: config.headers,
     body: JSON.stringify(newAvatar)
   })
   .then(handleResponse)

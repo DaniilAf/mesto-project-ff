@@ -22,9 +22,7 @@ function createCard(elem, deleteCard, imageClick, cardLike, userInfo) {
   likesCounter.textContent = elem.likes.length;
 
 //Удаление карточки
-if(elem.owner._id !== userInfo._id) {
-  deleteCardButton.classList.add('card__delete-button-hidden');
-} else {
+if(elem.owner._id === userInfo._id) {
   deleteCardButton.addEventListener('click', () => {
     deleteCardServ(elem._id)
       .then(() => deleteCard(cardElement))
@@ -32,10 +30,12 @@ if(elem.owner._id !== userInfo._id) {
         console.log(err); 
       }); 
     });
+} else {
+  deleteCardButton.style.display = "none";
 }
 
 //Лайк карточки
-if(givenLikes(elem.likes, userInfo)) {
+if(givenLikes(elem.likes, userInfo._id)) {
   cardLikeButton.classList.add('card__like-button_is-active');
 };
 

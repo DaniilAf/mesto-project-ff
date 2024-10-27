@@ -9,6 +9,7 @@
 const hideInputError = (formElement, formInput, validationConfig) => {
   const inputError = formElement.querySelector(`.${formInput.id}-error`);
   inputError.classList.remove(validationConfig.errorClass);
+  formInput.setCustomValidity("");
   inputError.textContent = '';
 }
 
@@ -52,8 +53,7 @@ function clearValidation(formElement, validationConfig) {
   inputList.forEach((formInput) => {
       hideInputError(formElement, formInput, validationConfig)
   })
-  buttonElement.disabled = true;
-  buttonElement.classList.add(validationConfig.inactiveButtonClass);
+  toggleButton();
 }
 
 const setEventListeners = (formElement, validationConfig) => {
