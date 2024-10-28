@@ -53,7 +53,7 @@ function clearValidation(formElement, validationConfig) {
   inputList.forEach((formInput) => {
       hideInputError(formElement, formInput, validationConfig)
   })
-  toggleButton();
+  toggleButton(formElement, validationConfig);
 }
 
 const setEventListeners = (formElement, validationConfig) => {
